@@ -49,11 +49,11 @@
     <form action="{% url 'organization_add' %}" method="POST" class="mb-3" id="organizationForm">
         {% csrf_token %}
         <div class="row mb-3">
-            <div class="col-md-6">
+            <div class="col-md-6 mb-2">
                 <label class="form-label">Organization Name</label>
                 <input type="text" name="company_name" class="form-control" placeholder="Enter company name" required>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-2">
                 <label class="form-label">Company Category</label>
                 <div class="form-select-icon">
                     <select name="company_category" class="form-control" required>
@@ -64,10 +64,7 @@
                     </select>
                 </div>
             </div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-md-6">
+            <div class="col-md-6 mb-2">
                 <label class="form-label">Division</label>
                 <select class="form-select" name="division" id="divisionFilter">
                     <option value="">All Divisions</option>
@@ -76,47 +73,39 @@
                     {% endfor %}
                 </select>
             </div>
-        
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-md-6">
+            <div class="col-md-6 mb-2">
+                <label class="form-label">Website</label>
+                <input type="url" name="website" class="form-control" placeholder="Enter website URL">
+            </div>
+            <div class="col-md-6 mb-2">
                 <label class="form-label">Email Addresses</label>
                 <input type="email" name="email1" class="form-control mb-2" placeholder="Email 1">
                 <input type="email" name="email2" class="form-control mb-2" placeholder="Email 2">
                 <input type="email" name="email3" class="form-control mb-2" placeholder="Email 3">
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-2">
                 <label class="form-label">Mobile Numbers</label>
                 <input type="tel" name="mobile1" class="form-control mb-2" placeholder="Mobile 1">
                 <input type="tel" name="mobile2" class="form-control mb-2" placeholder="Mobile 2">
                 <input type="tel" name="mobile3" class="form-control mb-2" placeholder="Mobile 3">
             </div>
-        </div>
-
-        <div class="row mb-3">
-           
-            <div class="col-md-6">
-                <label class="form-label">Website</label>
-                <input type="url" name="website" class="form-control" placeholder="Enter website URL">
-            </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-2">
                 <label class="form-label">Facebook Link</label>
                 <input type="url" name="social_facebook" class="form-control" placeholder="Enter Facebook Link">
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-2">
                 <label class="form-label">LinkedIn Link</label>
                 <input type="url" name="social_linkedin" class="form-control" placeholder="Enter LinkedIn Link">
             </div>
-            <div class="col-md-6 mt-3">
+            <div class="col-md-6 mb-2">
                 <label class="form-label">Office Address</label>
                 <textarea name="office_address" class="form-control" rows="2" placeholder="Enter office address"></textarea>
             </div>
-            <div class="col-md-6 mt-3">
+            <div class="col-md-6 mb-2">
                 <label class="form-label">Residential Address</label>
                 <textarea name="residential_address" class="form-control" rows="2" placeholder="Enter residential address"></textarea>
             </div>
-            <div class="col-md-6 mt-2">
+            <div class="col-md-6 mb-2">
                 <label class="form-label">Notes</label>
                 <textarea name="notes" class="form-control" rows="3" placeholder="Enter any notes"></textarea>
             </div>

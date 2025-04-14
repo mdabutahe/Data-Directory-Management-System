@@ -35,9 +35,6 @@
                     </select>
                 </div>
             </div>
-        </div>
-
-        <div class="row mb-3">
             <div class="col-md-6">
                 <label class="form-label">Division</label>
                 <select class="form-select" name="division" id="divisionFilter">
@@ -47,8 +44,10 @@
                     {% endfor %}
                 </select>
             </div>
- 
-
+            <div class="col-md-6">
+                <label class="form-label">Website</label>
+                <input type="url" name="website" class="form-control" value="{{ organization.website }}">
+            </div>
             <div class="col-md-6">
                 <label class="form-label">Mobile Numbers</label>
                 <div id="phoneFields">
@@ -65,13 +64,6 @@
                     <input type="email" name="email2" class="form-control mb-2" value="{{ organization.email2 }}">
                     <input type="email" name="email3" class="form-control mb-2" value="{{ organization.email3 }}">
                 </div>
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label class="form-label">Website</label>
-                <input type="url" name="website" class="form-control" value="{{ organization.website }}">
             </div>
             <div class="col-md-6">
                 <label class="form-label">Facebook Link</label>
