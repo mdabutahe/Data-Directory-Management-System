@@ -20,11 +20,11 @@
         {% csrf_token %}
 
         <div class="row mb-3">
-            <div class="col-md-6">
+            <div class="col-md-6 mb-2">
                 <label class="form-label">Organization Name</label>
                 <input type="text" name="org_name" value="{{ organization.org_name }}" class="form-control" required>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-2">
                 <label class="form-label">Company Category</label>
                 <div class="form-select-icon">
                     <select name="company_category" class="form-control" required>
@@ -35,7 +35,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-2">
                 <label class="form-label">Division</label>
                 <select class="form-select" name="division" id="divisionFilter">
                     <option value="">All Divisions</option>
@@ -44,11 +44,11 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-2">
                 <label class="form-label">Website</label>
                 <input type="url" name="website" class="form-control" value="{{ organization.website }}">
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-2">
                 <label class="form-label">Mobile Numbers</label>
                 <div id="phoneFields">
                     <input type="tel" name="mobile1" class="form-control mb-2" value="{{ organization.mobile1 }}">
@@ -57,7 +57,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-6 mb-2">
                 <label class="form-label">Email Addresses</label>
                 <div id="emailFields">
                     <input type="email" name="email1" class="form-control mb-2" value="{{ organization.email1 }}">
@@ -65,23 +65,23 @@
                     <input type="email" name="email3" class="form-control mb-2" value="{{ organization.email3 }}">
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-2">
                 <label class="form-label">Facebook Link</label>
                 <input type="url" name="social_facebook" class="form-control" value="{{ organization.social_facebook }}">
             </div>
-            <div class="col-md-6 mt-1">
+            <div class="col-md-6 mb-2">
                 <label class="form-label">LinkedIn Link</label>
                 <input type="url" name="social_linkedin" class="form-control" value="{{ organization.social_linkedin }}">
             </div>
-            <div class="col-md-6 mt-1">
+            <div class="col-md-6 mb-2">
                 <label class="form-label">Office Address</label>
                 <textarea name="office_address" class="form-control" rows="2">{{ organization.office_address }}</textarea>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-2">
                 <label class="form-label">Residential Address</label>
                 <textarea name="residential_address" class="form-control" rows="2">{{ organization.residential_address }}</textarea>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 mb-2">
                 <label class="form-label">Notes</label>
                 <textarea name="notes" class="form-control" rows="3">{{ organization.notes }}</textarea>
             </div>
