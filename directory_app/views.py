@@ -409,8 +409,8 @@ def send_sms(request):
 
 # Company URLs
 def company_list(request):
-    
-    return render(request, 'company/company_add.html')
+    companies = CompanyList.objects.all().order_by('-id')
+    return render(request, 'company/company_list.html', {"companies": companies})
 # Company URLs
 def company_add(request): 
     categories = OrganizationCategory.objects.all()
