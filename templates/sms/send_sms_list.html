@@ -1,0 +1,49 @@
+{% extends 'master.html' %}
+{% block title %} Sent SMS List {% endblock %}
+{% block content %}
+
+<div class="container-fluid pt-2">
+    <div class="rounded p-2">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+            <h4 class="mb-0">Sent SMS List</h4>
+            <a href="{% url 'send_bulk_sms' %}" class="btn btn-success">Send Bulk SMS</a>
+        </div>
+
+        <table class="table table-bordered">
+            <thead class="bg-light">
+                <tr>
+                    <th>#</th>
+                    <th>Recipient Name</th>
+                    <th>Phone Number</th>
+                    <th>Message</th>
+                    <th>Status</th>
+                    <th>Sent At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sms in sent_sms %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ sms.person.name }}</td>
+                    <td>{{ sms.phone }}</td>
+                    <td>{{ sms.message }}</td>
+                    <td>
+                        {% if sms.status == 'Success' %}
+                            <span class="badge bg-success">Success</span>
+                        {% else %}
+                            <span class="badge bg-danger">Failed</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ sms.created|date:"Y-m-d H:i:s" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">No SMS records found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

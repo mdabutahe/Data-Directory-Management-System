@@ -1,0 +1,253 @@
+{% extends 'master.html' %}
+{% block title %} Add Company {% endblock %}
+
+<!-- Add in the head section after your existing CSS -->
+{% block extra_css %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<div class="container"> 
+    <div class="d-flex align-items-center justify-content-between mt-3">
+        <h4 class="mb-0">Add Company</h4> 
+        <a href="{% url 'company_list' %}" class="btn btn-success mb-3">Company List</a>
+    </div>
+    
+
+    <form action="{% url 'company_add' %}" method="POST" class="mb-3" id="CompanyForm">
+        {% csrf_token %}
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Company Name</label>
+                <input type="text" name="company_name" class="form-control" placeholder="Enter company name" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Company Category</label>
+                <div class="form-select-icon">
+                    <select name="company_category" class="form-control" required>
+                        <option value="">Select Category</option>
+                        <option value="tech">Technology</option>
+                        <option value="manufacturing">Manufacturing</option>
+                        <option value="service">Service Industry</option>
+                        <option value="retail">Retail Business</option>
+                        <option value="finance">Financial Services</option>
+                        <option value="healthcare">Healthcare</option>
+                    </select>
+                </div>
+            </div>
+             
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Designation</label>
+                <div class="form-select-icon">
+                    <select name="designation" class="form-control" required>
+                        <option value="">Select Designation</option>
+                        <option value="tech">Technology</option>
+                        <option value="manufacturing">Manufacturing</option>
+                        <option value="service">Service Industry</option>
+                        <option value="retail">Retail Business</option>
+                        <option value="finance">Financial Services</option>
+                        <option value="healthcare">Healthcare</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Contact Person</label>
+                <input type="text" name="contact_person" class="form-control" placeholder="Enter contact person">
+            </div>
+        </div>
+        <!-- <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">MIDN</label>
+                <input type="text" name="midn" class="form-control" placeholder="Enter MIDN">
+            </div>
+        </div> -->
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Phone Numbers</label>
+                <div id="phoneFields">
+                    <div class="mb-2">
+                        <input type="tel" name="phone1" class="form-control" placeholder="Phone 1">
+                    </div>
+                    <div class="mb-2">
+                        <input type="tel" name="phone2" class="form-control" placeholder="Phone 2">
+                    </div>
+                    <div class="mb-2">
+                        <input type="tel" name="phone3" class="form-control" placeholder="Phone 3">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Email Addresses</label>
+                <div id="emailFields">
+                    <div class="mb-2">
+                        <input type="email" name="email1" class="form-control" placeholder="Email 1">
+                    </div>
+                    <div class="mb-2">
+                        <input type="email" name="email2" class="form-control" placeholder="Email 2">
+                    </div>
+                    <div class="mb-2">
+                        <input type="email" name="email3" class="form-control" placeholder="Email 3">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Website</label>
+                <input type="url" name="website" class="form-control" placeholder="Enter website URL">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Social Media</label>
+                <input type="url" name="website" class="form-control" placeholder="Enter social media links">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Office Address</label>
+                <textarea name="office_address" class="form-control" placeholder="Enter office address" rows="2"></textarea>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Residential Address</label>
+                <textarea name="residential_address" class="form-control" placeholder="Enter residential address" rows="2"></textarea>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Notes</label>
+                <textarea name="notes" class="form-control" rows="3"></textarea>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Phone number fields
+                document.querySelector('.add-phone').addEventListener('click', function() {
+                    const phoneFields = document.getElementById('phoneFields');
+                    const newField = document.createElement('div');
+                    newField.className = 'input-group mb-2';
+                    newField.innerHTML = `
+                        <input type="tel" name="phones[]" class="form-control" placeholder="Enter phone number">
+                        <button type="button" class="btn btn-danger remove-field">-</button>
+                    `;
+                    phoneFields.appendChild(newField);
+                });
+
+                // Email fields
+                document.querySelector('.add-email').addEventListener('click', function() {
+                    const emailFields = document.getElementById('emailFields');
+                    const newField = document.createElement('div');
+                    newField.className = 'input-group mb-2';
+                    newField.innerHTML = `
+                        <input type="email" name="emails[]" class="form-control" placeholder="Enter email address">
+                        <button type="button" class="btn btn-danger remove-field">-</button>
+                    `;
+                    emailFields.appendChild(newField);
+                });
+
+                // Remove field functionality
+                document.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('remove-field')) {
+                        e.target.parentElement.remove();
+                    }
+                });
+            });
+        </script>
+
+        <!-- Buttons Row -->
+        <div class="row mt-3">
+            <div class="col-md-12 text-end">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a href="{% url 'company_list' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Initialize Select2 for multiple select
+        $('.select2-multiple').select2({
+            theme: 'bootstrap4',
+            placeholder: "Select options",
+            allowClear: true,
+            tags: true,
+            tokenSeparators: [',', ' '],
+            width: '100%',
+            closeOnSelect: false,
+            selectionCssClass: 'select2--small',
+            dropdownCssClass: 'select2--small',
+        });
+
+        // Add custom dropdown icon for regular selects
+        $('select:not(.select2-multiple)').select2({
+            theme: 'bootstrap4',
+            minimumResultsForSearch: Infinity,
+            width: '100%'
+        });
+    });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const selections = {
+        services: new Set(),
+        products: new Set(),
+        political: new Set(),
+        business: new Set()
+    };
+
+    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+        const field = menu.dataset.field;
+        const tagsContainer = document.getElementById(`${field}-tags`);
+        const hiddenInput = document.getElementById(`${field}-input`);
+
+        menu.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (e.target.classList.contains('dropdown-item')) {
+                const value = e.target.dataset.value;
+                const text = e.target.textContent;
+
+                if (!selections[field].has(value)) {
+                    selections[field].add(value);
+                    e.target.classList.add('selected');
+                    
+                    // Create tag
+                    const tag = document.createElement('span');
+                    tag.className = 'selected-tag';
+                    tag.innerHTML = `${text} <span class="remove-tag" data-value="${value}">&times;</span>`;
+                    tagsContainer.appendChild(tag);
+                    
+                    // Update hidden input
+                    hiddenInput.value = Array.from(selections[field]).join(',');
+                }
+            }
+        });
+
+        // Handle tag removal
+        tagsContainer.addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-tag')) {
+                const value = e.target.dataset.value;
+                selections[field].delete(value);
+                e.target.parentElement.remove();
+                menu.querySelector(`[data-value="${value}"]`).classList.remove('selected');
+                hiddenInput.value = Array.from(selections[field]).join(',');
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

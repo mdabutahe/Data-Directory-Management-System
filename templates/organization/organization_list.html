@@ -1,0 +1,82 @@
+{% extends 'master.html' %}
+{% block title %} Organization List {% endblock %}
+{% block content %}
+<div class="container">
+      
+    <div class="d-flex align-items-center justify-content-between mt-3">
+        <h4 class="mb-0">Organization List</h4> 
+        <a href="{% url 'organization_add' %}" class="btn btn-success mb-3">Add Organization</a>
+    </div>
+    <!-- Filter Form -->
+    <form method="GET" class="mb-4">
+        <div class="row">
+          
+            <!-- Organization Filter -->
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Organization</label>
+                <select class="form-select" name="organization" id="organizationFilter">
+                    <option value="">All Organizations</option>
+                    {% for org in organizations %}
+                        <option value="{{ org.id }}" data-division="{{ org.division.id }}" {% if request.GET.organization == org.id|stringformat:"s" %}selected{% endif %}>{{ org.org_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+ 
+
+            <!-- Mobile Filter -->
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Mobile</label>
+                <input type="text" class="form-control" name="mobile" placeholder="Search by mobile" value="{{ request.GET.mobile }}">
+            </div>
+
+            <!-- Email Filter -->
+            <div class="col-md-3 mb-2">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" placeholder="Search by email" value="{{ request.GET.email }}">
+            </div>
+
+            <!-- Submit & Reset Buttons -->
+            <div class="col-md-3">
+                <label class="form-label">Actions</label>
+                <div class="d-flex">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                    <a href="{% url 'organization_list' %}" class="btn btn-secondary ms-2">Reset</a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>Org. Name</th>
+                <th>Category</th> 
+                <th>Mobile</th> 
+                <th>Email</th> 
+                <th>Website</th> 
+                <th style="width: 180px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for org in organizations %}
+            <tr>
+                <td>{{ org.org_name }}</td>
+                <td>{{ org.category.name }}</td> 
+                <td>{{ org.mobile1 }}</td> 
+                <td>{{ org.email1 }}</td>
+                <td>{{ org.website }}</td> 
+                <td>
+                    <a href="{% url 'organization_details' org.pk %}" class="btn btn-primary btn-sm"><i class="ri-eye-line"></i></a>
+                    <a href="{% url 'organization_edit' org.pk %}" class="btn btn-warning btn-sm"><i class="ri-edit-2-line"></i></a>
+                    <a href="{% url 'organization_delete' org.pk %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')"><i class="ri-delete-bin-6-line"></i></a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="9" class="text-center">No organizations found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+
+{% extends 'master.html' %}
+{% block title %} Add Person Level {% endblock %}
+{% block content %}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="col-sm-8 bg-light rounded p-4">
+        <h4 class="mb-4">Add Person Level</h4>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row g-3">
+                <div class="col-md-8">
+                    <label class="form-label">Person Level Name</label>
+                    <input type="text" class="form-control" name="name" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success mt-4">Save</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+

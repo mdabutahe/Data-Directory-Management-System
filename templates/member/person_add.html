@@ -1,0 +1,104 @@
+{% extends 'master.html' %}
+{% block title %} Add Person {% endblock %}
+{% block content %}
+
+<div class="container-fluid pt-2 px-4"> 
+    <div class="d-flex align-items-center justify-content-between mt-1">
+        <h4 class="mb-0">Add Person</h4> 
+        <a href="{% url 'person_list' %}" class="btn btn-success mb-3">Person List</a>
+    </div>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <!-- Organization -->
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Organization</label>
+                <select class="form-select" name="organization" required>
+                    <option value="">Select Organization</option>
+                    {% for org in organizations %}
+                    <option value="{{ org.id }}">{{ org.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <!-- Designation -->
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Designation</label>
+                <select class="form-select" name="designation" required>
+                    <option value="">Select Designation</option>
+                    {% for des in designations %}
+                    <option value="{{ des.id }}">{{ des.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Person Level -->
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Person Level</label>
+                <select class="form-select" name="person_level" required>
+                    <option value="">Select Person Level</option>
+                    {% for level in person_levels %}
+                    <option value="{{ level.id }}">{{ level.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Name -->
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" name="name" placeholder="Enter name" required>
+            </div>
+
+            <!-- Email -->
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" placeholder="Enter email">
+            </div>
+
+            <!-- Phone -->
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Phone</label>
+                <input type="text" class="form-control" name="phone" placeholder="Enter phone number">
+            </div>
+
+            <!-- Mobile -->
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Mobile</label>
+                <input type="text" class="form-control" name="mobile" placeholder="Enter mobile number">
+            </div>
+
+            <!-- WhatsApp -->
+            <div class="col-md-6 mb-3">
+                <label class="form-label">WhatsApp</label>
+                <input type="text" class="form-control" name="whatsapp" placeholder="Enter WhatsApp number">
+            </div>
+
+            <!-- Address -->
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Address</label>
+                <textarea class="form-control" name="address" rows="1" placeholder="Enter address"></textarea>
+            </div>
+
+            <!-- Rank -->
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Rank</label>
+                <input type="number" class="form-control" name="rank" value="1">
+            </div>
+
+            <!-- Profile Details -->
+            <div class="col-md-12 mb-3">
+                <label class="form-label">Profile Details</label>
+                <textarea class="form-control" name="profile_details" rows="3" placeholder="Enter profile details"></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary">Save Person</button>
+            </div>
+        </div>
+    </form> 
+    <br>
+</div>
+
+{% endblock %}

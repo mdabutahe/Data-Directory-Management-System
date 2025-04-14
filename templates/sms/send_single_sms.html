@@ -1,0 +1,127 @@
+{% extends 'master.html' %}
+{% block title %} Send SMS {% endblock %}
+{% block content %}
+
+<div class="container pt-3">
+    <div class="row">
+        <div class="col-sm-9">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="mb-0">Send SMS to {{ person.name }}</h4>
+                <a href="{% url 'send_sms_list' %}" class="btn btn-outline-primary">
+                    <i class="fas fa-list me-2"></i>SMS History
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        
+                        <!-- Recipient Details -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Recipient Name</label>
+                                <input type="text" class="form-control" value="{{ person.name }}" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" value="{{ person.phone }}" readonly>
+                            </div>
+                        </div>
+
+                        <!-- Template Selection -->
+                        <div class="mb-3">
+                            <label class="form-label">Choose Template</label>
+                            <select class="form-select" id="templateSelect">
+                                <option value="">Select a template or type custom message</option>
+                                <option value="template1">Welcome Message</option>
+                                <option value="template2">Meeting Reminder</option>
+                                <option value="template3">Payment Due</option>
+                            </select>
+                        </div>
+
+                        <!-- Message Content -->
+                        <div class="mb-3">
+                            <label class="form-label">Message Content</label>
+                            <textarea class="form-control" 
+                                      name="message" 
+                                      id="messageContent"
+                                      rows="4" 
+                                      placeholder="Enter your message or select a template..." 
+                                      required></textarea>
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <small class="text-muted characters-info">0/160 characters</small>
+                                <small class="text-muted messages-count">1 message</small>
+                            </div>
+                        </div>
+
+                        <!-- Preview Section -->
+                        <div class="mb-3">
+                            <label class="form-label">Message Preview</label>
+                            <div class="border rounded p-3 bg-light preview-box" style="min-height: 100px;">
+                                <small class="text-muted">Message preview will appear here...</small>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane me-2"></i>Send SMS
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary" onclick="clearForm()">
+                                <i class="fas fa-times me-2"></i>Clear
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const textarea = document.getElementById('messageContent');
+    const charactersInfo = document.querySelector('.characters-info');
+    const messagesCount = document.querySelector('.messages-count');
+    const previewBox = document.querySelector('.preview-box');
+    const templateSelect = document.getElementById('templateSelect');
+
+    // Update character count and preview
+    function updateMessageInfo() {
+        const length = textarea.value.length;
+        const messages = Math.ceil(length / 160);
+        charactersInfo.textContent = `${length}/160 characters`;
+        messagesCount.textContent = `${messages} message${messages > 1 ? 's' : ''}`;
+        previewBox.textContent = textarea.value || 'Message preview will appear here...';
+    }
+
+    // Handle template selection
+    templateSelect.addEventListener('change', function() {
+        if (this.value) {
+            // Replace with actual template content later
+            const templates = {
+                template1: "Welcome to our service, {name}!",
+                template2: "Reminder: Your meeting is scheduled for tomorrow.",
+                template3: "Your payment of {amount} is due on {date}."
+            };
+            textarea.value = templates[this.value];
+            updateMessageInfo();
+        }
+    });
+
+    // Clear form
+    window.clearForm = function() {
+        textarea.value = '';
+        templateSelect.value = '';
+        updateMessageInfo();
+    };
+
+    textarea.addEventListener('input', updateMessageInfo);
+    updateMessageInfo();
+});
+</script>
+{% endblock %}
+
+{% endblock %}

@@ -1,0 +1,47 @@
+
+
+{% extends 'master.html' %}
+{% block title %} Person Level List {% endblock %}
+{% block content %}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="col-sm-8 bg-light rounded p-3">
+ 
+        <div class="d-flex align-items-center justify-content-between mt-1">
+            <h4 class="mb-0">Person Level List</h4> 
+            <a href="{% url 'personlevel_add' %}" class="btn btn-success mb-3">Add New</a>
+        </div>
+
+   
+        <div class="table-responsive">
+            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                <thead>
+                    <tr class="text-dark">
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for person_level in person_levels %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ person_level.name }}</td>
+                        <td>
+                            <a href="{% url 'personlevel_edit' person_level.id %}" class="btn btn-sm btn-primary">Edit</a>
+                            <a href="{% url 'personlevel_delete' person_level.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-center">No Person Levels Found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

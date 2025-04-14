@@ -1,0 +1,158 @@
+{% extends 'master.html' %}
+{% block title %}Create SMS Template{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex align-items-center justify-content-between mt-3">
+        <h4 class="mb-0">Create SMS Template</h4>
+        <button class="btn btn-primary">
+            <i class="fas fa-list me-2"></i>Template List
+        </button>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <form method="POST" id="smsTemplateForm">
+                {% csrf_token %}
+                
+                <!-- Template Name -->
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label class="form-label">Template Name</label>
+                        <input type="text" 
+                               name="template_name" 
+                               class="form-control" 
+                               placeholder="Enter descriptive template name"
+                               required>
+                    </div>
+                </div>
+
+                <!-- SMS Category -->
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label class="form-label">SMS Category</label>
+                        <select class="form-select" name="sms_category" required>
+                            <option value="">Select category</option>
+                            <option value="business">Business</option>
+                            <option value="political">Political</option>
+                            <option value="membership">Membership</option>
+                            <option value="product">Product/Service</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Dynamic Variables -->
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label class="form-label">Available Variables</label>
+                        <div class="d-flex flex-wrap gap-2">
+                            <button type="button" class="btn btn-sm btn-outline-secondary variable-btn" 
+                                    data-variable="{name}">Name</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary variable-btn" 
+                                    data-variable="{phone}">Phone</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary variable-btn" 
+                                    data-variable="{company}">Company</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary variable-btn" 
+                                    data-variable="{designation}">Designation</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary variable-btn" 
+                                    data-variable="{date}">Date</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Message Content -->
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label class="form-label">Message Content</label>
+                        <textarea name="template_content" 
+                                 class="form-control" 
+                                 rows="5" 
+                                 placeholder="Type your message here. Click variables above to insert them into your message."
+                                 required></textarea>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <small class="text-muted characters-info">0/160 characters</small>
+                            <small class="text-muted messages-count">1 message</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="d-flex gap-2 justify-content-end">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#previewModal">
+                                <i class="fas fa-eye me-2"></i>Preview
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Save Template
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Preview Modal -->
+    <div class="modal fade" id="previewModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Template Preview</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="preview-content p-3 border rounded"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add this to your CSS section -->
+<style>
+    .variable-btn:hover {
+        background-color: #3B82F6;
+        color: white;
+        border-color: #3B82F6;
+    }
+    .preview-content {
+        min-height: 100px;
+        white-space: pre-wrap;
+    }
+</style>
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const textarea = document.querySelector('textarea[name="template_content"]');
+    const charactersInfo = document.querySelector('.characters-info');
+    const messagesCount = document.querySelector('.messages-count');
+    const variableButtons = document.querySelectorAll('.variable-btn');
+
+    // Handle variable button clicks
+    variableButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const variable = btn.dataset.variable;
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const text = textarea.value;
+            textarea.value = text.substring(0, start) + variable + text.substring(end);
+            updateCharacterCount();
+        });
+    });
+
+    // Update character count
+    function updateCharacterCount() {
+        const length = textarea.value.length;
+        const messages = Math.ceil(length / 160);
+        charactersInfo.textContent = `${length}/160 characters`;
+        messagesCount.textContent = `${messages} message${messages > 1 ? 's' : ''}`;
+    }
+
+    textarea.addEventListener('input', updateCharacterCount);
+});
+</script>
+{% endblock %}
+
+{% endblock %}

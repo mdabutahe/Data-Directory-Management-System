@@ -1,0 +1,30 @@
+{% extends 'master.html' %}
+{% block title %} Add Designation {% endblock %}
+{% block content %}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light rounded p-4">
+        <h4 class="mb-4">Add Designation</h4>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row g-3">
+                <div class="col-md-8">
+                    <div class="group-control">
+                        <label>Designation Name</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div> 
+                </div>
+                <div class="col-md-8">
+                    <div class="group-control">
+                        <button type="submit" class="btn btn-success mt-4">Save</button>
+                    </div> 
+                </div> 
+            </div>
+            
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+

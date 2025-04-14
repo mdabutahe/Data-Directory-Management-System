@@ -1,0 +1,23 @@
+
+{% extends 'master.html' %}
+{% block title %} Edit Person Level {% endblock %}
+{% block content %}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light text-center rounded p-4">
+        <h4 class="mb-4">Edit Person Level - {{ person_level.name }}</h4>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="row g-3">
+                <div class="col-md-12">
+                    <label class="form-label">Person Level Name</label>
+                    <input type="text" class="form-control" name="name" value="{{ person_level.name }}" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary mt-4">Update</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

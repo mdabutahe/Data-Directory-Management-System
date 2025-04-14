@@ -1,0 +1,152 @@
+{% extends 'master.html' %}
+{% block title %} Add Organization {% endblock %}
+
+{% block extra_css %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<style>
+    .select2-container--default .select2-selection--multiple {
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        min-height: 38px;
+    }
+    .select2-container {
+        width: 100% !important;
+    }
+    .form-select-icon {
+        position: relative;
+    }
+    .form-select-icon::after {
+        content: "\f107";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+    }
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        background-color: #3B82F6;
+        color: white;
+        border: none;
+        padding: 2px 8px;
+    }
+    .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+        color: white;
+        margin-right: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex align-items-center justify-content-between mt-3">
+        <h4 class="mb-0">Add Organization</h4>
+        <a href="{% url 'organization_list' %}" class="btn btn-success mb-3">Organization List</a>
+    </div>
+
+    <form action="{% url 'organization_add' %}" method="POST" class="mb-3" id="organizationForm">
+        {% csrf_token %}
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Organization Name</label>
+                <input type="text" name="company_name" class="form-control" placeholder="Enter company name" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Company Category</label>
+                <div class="form-select-icon">
+                    <select name="company_category" class="form-control" required>
+                        <option value="">Select Category</option>
+                        {% for data in categories %}
+                            <option value="{{data.pk}}">{{data.name}}</option>
+                        {% endfor %} 
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Division</label>
+                <select class="form-select" name="division" id="divisionFilter">
+                    <option value="">All Divisions</option>
+                    {% for div in divisions %}
+                        <option value="{{ div.id }}" {% if request.GET.division == div.id|stringformat:"s" %}selected{% endif %}>{{ div.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Email Addresses</label>
+                <input type="email" name="email1" class="form-control mb-2" placeholder="Email 1">
+                <input type="email" name="email2" class="form-control mb-2" placeholder="Email 2">
+                <input type="email" name="email3" class="form-control mb-2" placeholder="Email 3">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Mobile Numbers</label>
+                <input type="tel" name="mobile1" class="form-control mb-2" placeholder="Mobile 1">
+                <input type="tel" name="mobile2" class="form-control mb-2" placeholder="Mobile 2">
+                <input type="tel" name="mobile3" class="form-control mb-2" placeholder="Mobile 3">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+           
+            <div class="col-md-6">
+                <label class="form-label">Website</label>
+                <input type="url" name="website" class="form-control" placeholder="Enter website URL">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Facebook Link</label>
+                <input type="url" name="social_facebook" class="form-control" placeholder="Enter Facebook Link">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">LinkedIn Link</label>
+                <input type="url" name="social_linkedin" class="form-control" placeholder="Enter LinkedIn Link">
+            </div>
+            <div class="col-md-6 mt-3">
+                <label class="form-label">Office Address</label>
+                <textarea name="office_address" class="form-control" rows="2" placeholder="Enter office address"></textarea>
+            </div>
+            <div class="col-md-6 mt-3">
+                <label class="form-label">Residential Address</label>
+                <textarea name="residential_address" class="form-control" rows="2" placeholder="Enter residential address"></textarea>
+            </div>
+            <div class="col-md-6 mt-2">
+                <label class="form-label">Notes</label>
+                <textarea name="notes" class="form-control" rows="3" placeholder="Enter any notes"></textarea>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-12 text-end">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a href="{% url 'organization_list' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.select2-multiple').select2({
+            theme: 'bootstrap4',
+            placeholder: "Select options",
+            allowClear: true,
+            tags: true,
+            tokenSeparators: [',', ' '],
+            width: '100%',
+            closeOnSelect: false,
+            selectionCssClass: 'select2--small',
+            dropdownCssClass: 'select2--small',
+        });
+    });
+</script>
+{% endblock %}

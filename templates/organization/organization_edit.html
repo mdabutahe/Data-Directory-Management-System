@@ -1,0 +1,118 @@
+{% extends 'master.html' %}
+{% block title %} Edit Organization {% endblock %}
+
+{% block extra_css %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+<style>
+    /* Same CSS from Add Page (reuse styles here) */
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex align-items-center justify-content-between mt-3">
+        <h4 class="mb-0">Edit Organization</h4>
+        <a href="{% url 'organization_list' %}" class="btn btn-success mb-3">Company List</a>
+    </div>
+
+    <form action="{% url 'organization_edit' organization.id %}" method="POST" class="mb-3" id="organizationForm">
+        {% csrf_token %}
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Organization Name</label>
+                <input type="text" name="org_name" value="{{ organization.org_name }}" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Company Category</label>
+                <div class="form-select-icon">
+                    <select name="company_category" class="form-control" required>
+                        <option value="">Select Category</option>
+                        {% for cat in categories %}
+                            <option value="{{ cat.id }}" {% if organization.category.id == cat.id %}selected{% endif %}>{{ cat.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Division</label>
+                <select class="form-select" name="division" id="divisionFilter">
+                    <option value="">All Divisions</option>
+                    {% for div in divisions %}
+                        <option value="{{ div.id }}" {% if organization.division.id == div.id %}selected{% endif %}>{{ div.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+ 
+
+            <div class="col-md-6">
+                <label class="form-label">Mobile Numbers</label>
+                <div id="phoneFields">
+                    <input type="tel" name="mobile1" class="form-control mb-2" value="{{ organization.mobile1 }}">
+                    <input type="tel" name="mobile2" class="form-control mb-2" value="{{ organization.mobile2 }}">
+                    <input type="tel" name="mobile3" class="form-control mb-2" value="{{ organization.mobile3 }}">
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Email Addresses</label>
+                <div id="emailFields">
+                    <input type="email" name="email1" class="form-control mb-2" value="{{ organization.email1 }}">
+                    <input type="email" name="email2" class="form-control mb-2" value="{{ organization.email2 }}">
+                    <input type="email" name="email3" class="form-control mb-2" value="{{ organization.email3 }}">
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label class="form-label">Website</label>
+                <input type="url" name="website" class="form-control" value="{{ organization.website }}">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Facebook Link</label>
+                <input type="url" name="social_facebook" class="form-control" value="{{ organization.social_facebook }}">
+            </div>
+            <div class="col-md-6 mt-1">
+                <label class="form-label">LinkedIn Link</label>
+                <input type="url" name="social_linkedin" class="form-control" value="{{ organization.social_linkedin }}">
+            </div>
+            <div class="col-md-6 mt-1">
+                <label class="form-label">Office Address</label>
+                <textarea name="office_address" class="form-control" rows="2">{{ organization.office_address }}</textarea>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Residential Address</label>
+                <textarea name="residential_address" class="form-control" rows="2">{{ organization.residential_address }}</textarea>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Notes</label>
+                <textarea name="notes" class="form-control" rows="3">{{ organization.notes }}</textarea>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-12 text-end">
+                <button type="submit" class="btn btn-primary">Update</button>
+                <a href="{% url 'organization_list' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('select').select2({
+            theme: 'bootstrap4',
+            width: '100%'
+        });
+    });
+</script>
+{% endblock %}

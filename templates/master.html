@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"> 
+    <title>{% block title %} Data Directory System{% endblock %} </title>
+
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description"> 
+
+    <link href="img/favicon.ico" rel="icon"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/static/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="/static/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet"/>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container-fluid position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+        <!-- Sidebar Start -->
+        <div class="sidebar custom_sidebar_background pb-3">
+            <nav class="navbar navbar-light">
+                <a href="/" class="navbar-brand mx-4 mb-3">
+                    <h3 class="text-primary text-white">DDMS</h3>
+                </a> 
+                <div class="navbar-nav w-100 custom_navbar">
+                    <a href="/" class="nav-item nav-link active"><i class="ri-dashboard-line"></i>Dashboard</a>
+                    <!-- <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-users"></i>Member Directory</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="/persons/" class="dropdown-item">Persons List</a>
+                            <a href="/persons/add/" class="dropdown-item">Member Add</a> 
+                            <a href="/persons/add/" class="dropdown-item">Member Add (Bulk)</a> 
+                        </div>
+                    </div> -->
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-user"></i>Person Management</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="/persons/" class="dropdown-item">Persons List</a>
+                            <a href="/persons/add/" class="dropdown-item">Member Add</a> 
+                            <a href="/persons/add/" class="dropdown-item">Member Add (Bulk)</a> 
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-business-time"></i>Company Management</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="/company/" class="dropdown-item">Company List</a>
+                            <a href="/company/add/" class="dropdown-item">Company Add</a> 
+                        </div>
+                    </div> 
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-business-time"></i>Organization</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="/organization/" class="dropdown-item">Organization List</a>
+                            <a href="/organization/add/" class="dropdown-item">Organization Add</a> 
+                        </div>
+                    </div>  
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-comments"></i>SMS Module</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <!-- <a href="/send-sms/" class="dropdown-item">Single SMS Send</a> -->
+                            <a href="/create-sms-template/" class="dropdown-item">Create SMS Template</a>
+                            <a href="/send-sms/" class="dropdown-item">Send Instant SMS</a>
+                            <a href="/send-bulk-sms/" class="dropdown-item">Bulk SMS Send</a>
+                            <a href="/sent-sms-list/" class="dropdown-item">Sent SMS List</a> 
+                        </div>
+                    </div> 
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-envelope"></i>Email Module</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="#" class="dropdown-item">Single Email Send</a>
+                            <a href="#" class="dropdown-item">Bulk Email Send</a>
+                            <a href="#" class="dropdown-item">Sent Email List</a> 
+                        </div>
+                    </div> 
+
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-book"></i>Reports</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="#" class="dropdown-item">Person Report</a>
+                            <a href="#" class="dropdown-item">Organization Report</a> 
+                        </div>
+                    </div>
+
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="ri-settings-line"></i>Settings</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="/settings/division/add/" class="dropdown-item">Division Add</a> 
+                            <a href="/settings/division/list/" class="dropdown-item">Division List</a> 
+                            <a href="/settings/designation/add/" class="dropdown-item">Designation Add</a> 
+                            <a href="/settings/designation/" class="dropdown-item">Designation List</a> 
+
+                            <a href="/settings/personlevel/add/" class="dropdown-item">Person Level Add</a> 
+                            <a href="/settings/personlevel/" class="dropdown-item">Person Level List</a> 
+
+                            <a href="/settings/organization-category/add/" class="dropdown-item">Company Category Add</a> 
+                            <a href="/settings/organization-category/list/" class="dropdown-item">Company Category List</a> 
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!-- Sidebar End -->
+
+
+            <!-- Content Start -->
+    <div class="content">
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand custom_top_menu navbar-light sticky-top px-4 py-0">
+            <a href="#" class="navbar-brand d-flex d-lg-none me-4">
+                <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+            </a>
+            <a href="#" class="sidebar-toggler flex-shrink-0">
+                <i class="ri-menu-fold-line text-xl text-white"></i>
+            </a>
+            <form class="d-none d-md-flex ms-4">
+                <input class="form-control border-0" type="search" placeholder="Search">
+            </form>
+            <div class="navbar-nav align-items-center ms-auto">
+                
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle text-white" data-bs-toggle="dropdown">
+                        <img class="rounded-circle me-lg-2" src="/static/img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                        <span class="d-none d-lg-inline-flex">John Smith</span>
+                    </a>
+                    <div class="dropdown-menu bg-white dropdown-menu-end shadow py-3 border-0 rounded-3 rounded-bottom m-0">
+                        <a href="#" class="dropdown-item py-2 d-flex gap-2"><i class="ri-user-line mr-2"></i> My Profile</a>
+                        <a href="#" class="dropdown-item py-2 d-flex gap-2"><i class="ri-settings-line mr-2"></i> Settings</a>
+                        <a href="/user/logout/" class="dropdown-item py-2 d-flex gap-2"><i class="ri-logout-box-line mr-2"></i> Log Out</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- Navbar End -->
+
+
+
+        {% block content %}
+
+        {% endblock %}
+
+        
+        <!-- Footer Start -->
+        <!-- <div class="container-fluid pt-4 px-4">
+            <div class="bg-light rounded-top p-4">
+                <div class="row">
+                    <div class="col-12 col-sm-6 text-center text-sm-start">
+                        &copy; <a href="#">Versatile Real Estate Agency</a>, All Right Reserved. 
+                    </div>
+                    <div class="col-12 col-sm-6 text-center text-sm-end">
+                        Designed By <a href="#">Somadhan IT & Technology</a>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!-- Footer End -->
+
+
+    </div>
+    <!-- Content End -->
+
+
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/lib/chart/chart.min.js"></script>
+    <script src="/static/lib/easing/easing.min.js"></script>
+    <script src="/static/lib/waypoints/waypoints.min.js"></script>
+    <script src="/static/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="/static/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="/static/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="/static/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="/static/js/main.js"></script>
+</body>
+
+</html>

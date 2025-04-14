@@ -1,0 +1,93 @@
+{% extends 'master.html' %}
+{% block title %}Organization Details{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4>Organization Details</h4>
+        <a href="{% url 'organization_list' %}" class="btn btn-secondary">Back to List</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Organization Name:</strong> {{ organization.company_name }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Category:</strong> {{ organization.company_category.name }}
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Division:</strong> {{ organization.division.name }}
+                </div>
+              
+            </div>
+
+            <div class="row mb-3">
+              
+                <div class="col-md-6">
+                    <strong>Mobile Numbers:</strong>
+                    <ul class="mb-0">
+                        {% if organization.mobile1 %}<li>{{ organization.mobile1 }}</li>{% endif %}
+                        {% if organization.mobile2 %}<li>{{ organization.mobile2 }}</li>{% endif %}
+                        {% if organization.mobile3 %}<li>{{ organization.mobile3 }}</li>{% endif %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Emails:</strong>
+                    <ul class="mb-0">
+                        {% if organization.email1 %}<li>{{ organization.email1 }}</li>{% endif %}
+                        {% if organization.email2 %}<li>{{ organization.email2 }}</li>{% endif %}
+                        {% if organization.email3 %}<li>{{ organization.email3 }}</li>{% endif %}
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <strong>Website:</strong> 
+                    {% if organization.website %}
+                        <a href="{{ organization.website }}" target="_blank">{{ organization.website }}</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Facebook:</strong> 
+                    {% if organization.social_facebook %}
+                        <a href="{{ organization.social_facebook }}" target="_blank">{{ organization.social_facebook }}</a>
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <strong>LinkedIn:</strong> 
+                    {% if organization.social_linkedin %}
+                        <a href="{{ organization.social_linkedin }}" target="_blank">{{ organization.social_linkedin }}</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Office Address:</strong>
+                    <p>{{ organization.office_address }}</p>
+                </div>
+                <div class="col-md-6">
+                    <strong>Residential Address:</strong>
+                    <p>{{ organization.residential_address }}</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <strong>Notes:</strong>
+                    <p>{{ organization.notes }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
