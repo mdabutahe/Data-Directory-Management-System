@@ -1,0 +1,138 @@
+{% extends 'master.html' %}
+{% block title %}Comapny Details | {{ Comapny.company_name }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="h4 font-weight-bold text-primary">
+            <i class="fas fa-building mr-2"></i>Comapny Details
+        </h2>
+        <a href="{% url 'Comapny_list' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left mr-2"></i>Back to List
+        </a>
+    </div>
+
+    <div class="card border-0 shadow-lg">
+        <div class="card-header bg-primary text-white py-3">
+            <h3 class="h5 mb-0">{{ Comapny.company_name }}</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <!-- Basic Info Column -->
+                <div class="col-lg-6">
+                    <div class="info-section mb-4">
+                        <h4 class="h6 text-muted border-bottom pb-2 mb-3">Basic Information</h4>
+                        <div class="info-item mb-3">
+                            <span class="text-muted">Category:</span>
+                            <span class="badge badge-info">{{ Comapny.company_category.name }}</span>
+                        </div>
+                        <div class="info-item mb-3">
+                            <span class="text-muted">Division:</span>
+                            <span class="font-weight-medium">{{ Comapny.division.name }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div class="info-section mb-4">
+                        <h4 class="h6 text-muted border-bottom pb-2 mb-3">Contact Information</h4>
+                        <div class="info-item mb-3">
+                            <span class="text-muted">Mobile:</span>
+                            <ul class="list-unstyled mb-0">
+                                {% if Comapny.mobile1 %}<li><i class="fas fa-mobile-alt mr-2 text-muted"></i>{{ Comapny.mobile1 }}</li>{% endif %}
+                                {% if Comapny.mobile2 %}<li><i class="fas fa-mobile-alt mr-2 text-muted"></i>{{ Comapny.mobile2 }}</li>{% endif %}
+                                {% if Comapny.mobile3 %}<li><i class="fas fa-mobile-alt mr-2 text-muted"></i>{{ Comapny.mobile3 }}</li>{% endif %}
+                            </ul>
+                        </div>
+                        <div class="info-item mb-3">
+                            <span class="text-muted">Email:</span>
+                            <ul class="list-unstyled mb-0">
+                                {% if Comapny.email1 %}<li><i class="fas fa-envelope mr-2 text-muted"></i>{{ Comapny.email1 }}</li>{% endif %}
+                                {% if Comapny.email2 %}<li><i class="fas fa-envelope mr-2 text-muted"></i>{{ Comapny.email2 }}</li>{% endif %}
+                                {% if Comapny.email3 %}<li><i class="fas fa-envelope mr-2 text-muted"></i>{{ Comapny.email3 }}</li>{% endif %}
+                            </ul>
+                        </div>
+                        {% if Comapny.website %}
+                        <div class="info-item mb-3">
+                            <span class="text-muted">Website:</span>
+                            <a href="{{ Comapny.website }}" target="_blank" class="text-primary">
+                                <i class="fas fa-globe mr-2"></i>{{ Comapny.website }}
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Social & Address Column -->
+                <div class="col-lg-6">
+                    <!-- Social Media -->
+                    <div class="info-section mb-4">
+                        <h4 class="h6 text-muted border-bottom pb-2 mb-3">Social Media</h4>
+                        {% if Comapny.social_facebook %}
+                        <div class="info-item mb-3">
+                            <span class="text-muted">Facebook:</span>
+                            <a href="{{ Comapny.social_facebook }}" target="_blank" class="text-primary">
+                                <i class="fab fa-facebook mr-2"></i>View Profile
+                            </a>
+                        </div>
+                        {% endif %}
+                        {% if Comapny.social_linkedin %}
+                        <div class="info-item mb-3">
+                            <span class="text-muted">LinkedIn:</span>
+                            <a href="{{ Comapny.social_linkedin }}" target="_blank" class="text-primary">
+                                <i class="fab fa-linkedin mr-2"></i>View Profile
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Address Information -->
+                    <div class="info-section mb-4">
+                        <h4 class="h6 text-muted border-bottom pb-2 mb-3">Address Information</h4>
+                        <div class="info-item mb-3">
+                            <span class="text-muted">Office Address:</span>
+                            <p class="font-weight-medium">{{ Comapny.office_address }}</p>
+                        </div>
+                        <div class="info-item">
+                            <span class="text-muted">Residential Address:</span>
+                            <p class="font-weight-medium">{{ Comapny.residential_address }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notes Section -->
+            {% if Comapny.notes %}
+            <div class="info-section mt-4">
+                <h4 class="h6 text-muted border-bottom pb-2 mb-3">Additional Notes</h4>
+                <div class="bg-light p-3 rounded">
+                    {{ Comapny.notes }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .info-section {
+        padding: 1rem;
+        background-color: #f8f9fa;
+        border-radius: 0.5rem;
+    }
+    .info-item {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .info-item > span:first-child {
+        min-width: 120px;
+        color: #6c757d;
+    }
+    .card {
+        border-radius: 0.75rem;
+        overflow: hidden;
+    }
+    .badge-info {
+        background-color: #17a2b8;
+    }
+</style>
+{% endblock %}
