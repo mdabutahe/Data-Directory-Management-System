@@ -412,10 +412,37 @@ def company_list(request):
     
     return render(request, 'company/company_add.html')
 # Company URLs
-def company_add(request):
-    designations = Designation.objects.all()
+def company_add(request): 
+    categories = OrganizationCategory.objects.all()
+ 
+    if request.method == 'POST': 
+        company_name = request.POST['company_name']
+        category_id = int(request.POST['company_category']) 
+        mobile1 = request.POST.get('phone1')
+        mobile2 = request.POST.get('phone2')
+        mobile3 = request.POST.get('phone3')
+        email1 = request.POST.get('email1')
+        email2 = request.POST.get('email2')
+        email3 = request.POST.get('email3') 
+        website = request.POST.get('website')
+        social_facebook = request.POST.get('social_facebook')
+        social_linkedin = request.POST.get('social_linkedin')
+        office_address = request.POST.get('office_address')
+        residential_address = request.POST.get('residential_address')
+        about_company = request.POST.get('about_company')
+
+        CompanyList.objects.create(  
+            category_id=category_id, 
+            company_name=company_name, 
+            email1=email1, email2=email2, email3=email3, 
+            mobile1=mobile1, mobile2=mobile2, mobile3=mobile3, 
+            website=website,social_facebook = social_facebook,social_linkedin=social_linkedin,
+            office_address=office_address, residential_address = residential_address, 
+            about_company= about_company
+        )
+        return redirect('company_list')
     
-    context = {
-        'designations':designations,
+    context = { 
+        'categories':categories,
     }
     return render(request, 'company/company_add.html', context)

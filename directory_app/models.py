@@ -199,17 +199,23 @@ class Organization(models.Model):
 
 
 # Company Model
-class CompanyList(models.Model):
-    division = models.ForeignKey('Division', on_delete=models.CASCADE)
+class CompanyList(models.Model): 
     category = models.ForeignKey('OrganizationCategory', on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
-    email = models.EmailField(max_length=255, unique=True)
-    phone = models.CharField(max_length=30, blank=True, null=True)
+    company_name = models.CharField(max_length=255)
+    email1 = models.EmailField(max_length=255, unique=True)
+    email2 = models.EmailField(max_length=255, unique=True)
+    email3 = models.EmailField(max_length=255, unique=True)
     mobile1 = models.CharField(max_length=30, blank=True, null=True)
     mobile2 = models.CharField(max_length=30, blank=True, null=True)
-    address = models.TextField(blank=True, null=True)
+    mobile3 = models.CharField(max_length=30, blank=True, null=True)
+    residential_address = models.TextField(blank=True, null=True)
+    office_address = models.TextField(blank=True, null=True)
     website = models.URLField(blank=True, null=True)
+    social_facebook = models.URLField(blank=True, null=True)
+    social_linkedin = models.URLField(blank=True, null=True)
+    about_company = models.TextField(blank=True, null=True) 
     map_location = models.TextField(blank=True, null=True) 
+    company_logo = models.ImageField(upload_to='company_logos/', blank=True, null=True) 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

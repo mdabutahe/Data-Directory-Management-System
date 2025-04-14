@@ -29,12 +29,9 @@
                 <div class="form-select-icon">
                     <select name="company_category" class="form-control" required>
                         <option value="">Select Category</option>
-                        <option value="tech">Technology</option>
-                        <option value="manufacturing">Manufacturing</option>
-                        <option value="service">Service Industry</option>
-                        <option value="retail">Retail Business</option>
-                        <option value="finance">Financial Services</option>
-                        <option value="healthcare">Healthcare</option>
+                        {% for data in categories %}
+                            <option value="{{ data.id }}">{{ data.name }}</option> 
+                        {% endfor %}
                     </select>
                 </div>
             </div>
