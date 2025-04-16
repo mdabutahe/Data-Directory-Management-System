@@ -19,6 +19,23 @@ class Division(models.Model):
         return self.name
 
 
+# Political Identity Model
+class PoliticalIdentity(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    rank = models.IntegerField(default=1) 
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'political_identity'
+        verbose_name = 'PoliticalIdentity'
+        verbose_name_plural = 'PoliticalIdentitys'
+
+    def __str__(self):
+        return self.name
+
+
 # OrganizationCategory Model
 class OrganizationCategory(models.Model):
     name = models.CharField(max_length=255)
