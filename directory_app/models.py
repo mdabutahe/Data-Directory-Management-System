@@ -87,15 +87,20 @@ class PersonLevel(models.Model):
 
 # PersonList Model
 class PersonList(models.Model):
-    organization = models.ForeignKey('Organization', on_delete=models.CASCADE)
-    person_level = models.ForeignKey('PersonLevel', on_delete=models.CASCADE)
-    designation = models.ForeignKey('Designation', on_delete=models.CASCADE)
+    company = models.ForeignKey('CompanyList', on_delete=models.SET_NULL, null=True, blank=True)
+    organization = models.ForeignKey('Organization', on_delete=models.SET_NULL, null=True, blank=True)
+    person_level = models.ForeignKey('PersonLevel', on_delete=models.SET_NULL, null=True, blank=True)
+    designation = models.ForeignKey('Designation', on_delete=models.SET_NULL, null=True, blank=True)
+    political_identity = models.ForeignKey(PoliticalIdentity, on_delete=models.SET_NULL, null=True, blank=True)
     name = models.CharField(max_length=255)
     email = models.EmailField()
     phone = models.CharField(max_length=20, blank=True, null=True)
     mobile = models.CharField(max_length=20, blank=True, null=True)
     whatsapp = models.CharField(max_length=20, blank=True, null=True)
     address = models.TextField(blank=True, null=True)  
+    facebook_link = models.TextField(blank=True, null=True)  
+    twitter_link = models.TextField(blank=True, null=True)  
+    linkedin_link = models.TextField(blank=True, null=True)     
     profile_details = models.TextField(blank=True, null=True)
     rank = models.IntegerField(default=1)
     created = models.DateTimeField(auto_now_add=True)

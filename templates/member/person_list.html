@@ -27,7 +27,7 @@
                 <select class="form-select" name="organization" id="organizationFilter">
                     <option value="">All Organizations</option>
                     {% for org in organizations %}
-                        <option value="{{ org.id }}" data-division="{{ org.division.id }}" {% if request.GET.organization == org.id|stringformat:"s" %}selected{% endif %}>{{ org.name }}</option>
+                        <option value="{{ org.id }}" data-division="{{ org.division.id }}" {% if request.GET.organization == org.id|stringformat:"s" %}selected{% endif %}>{{ org.org_name }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -94,7 +94,7 @@
                 <td>{{ person.name }}</td>
                 <td>{{ person.email }}</td>
                 <td>{{ person.phone }}</td>
-                <td>{{ person.organization.name }}</td>
+                <td>{{ person.organization.org_name }}</td>
                 <td>{{ person.designation.name }}</td>
                 <td>
                     <a href="{% url 'send_single_sms' person.id %}" class="btn btn-sm btn-info">Send SMS</a>

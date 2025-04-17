@@ -8,6 +8,11 @@ urlpatterns = [
     path('division/edit/<int:id>/', views.division_edit, name='division_edit'),
     path('division/delete/<int:id>/', views.division_delete, name='division_delete'),
 
+    path('political-identity/add/', views.political_identity_add, name='political_identity_add'),
+    path('political-identity/list/', views.political_identity_list, name='political_identity_list'),
+    path('political-identity/edit/<int:id>/', views.political_identity_edit, name='political_identity_edit'),
+    path('political-identity/delete/<int:id>/', views.political_identity_delete, name='political_identity_delete'),
+
     path('organization-category/add/', views.organization_category_add, name='organization_category_add'),
     path('organization-category/list/', views.organization_category_list, name='organization_category_list'),
     path('organization-category/edit/<int:id>/', views.organization_category_edit, name='organization_category_edit'),

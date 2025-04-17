@@ -43,6 +43,44 @@ def division_delete(request, id):
     return redirect('division_list')
 
 
+############# Political Identity ##################
+def political_identity_add(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        description = request.POST.get('description', '')
+        rank = request.POST.get('rank', 1)
+
+        PoliticalIdentity.objects.create(name=name, description=description, rank=rank)
+        messages.success(request, "Political Identity added successfully!")
+        return redirect('political_identity_list')
+
+    return render(request, 'settings/political_identity_add.html')
+
+def political_identity_list(request):
+    political_list = PoliticalIdentity.objects.all().order_by('rank')
+    return render(request, 'settings/political_identity_list.html', {'political_list': political_list})
+
+def political_identity_edit(request, id):
+    political  = get_object_or_404(PoliticalIdentity, id=id)
+
+    if request.method == 'POST':
+        political.name = request.POST.get('name')
+        political.description = request.POST.get('description', '')
+        political.rank = request.POST.get('rank', 1)
+        political.save()
+
+        messages.success(request, "Political Identity updated successfully!")
+        return redirect('political_identity_list')
+
+    return render(request, 'settings/political_identity_add.html', {'political': political})
+
+def political_identity_delete(request, id):
+    political = get_object_or_404(PoliticalIdentity, id=id)
+    political.delete()
+    messages.success(request, "Political Identity deleted successfully!")
+    return redirect('political_identity_list')
+
+
 
 
 

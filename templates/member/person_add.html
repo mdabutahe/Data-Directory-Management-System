@@ -14,15 +14,45 @@
             <!-- Organization -->
             <div class="col-md-6 mb-3">
                 <label class="form-label">Organization</label>
-                <select class="form-select" name="organization" required>
+                <select class="form-select" name="organization">
                     <option value="">Select Organization</option>
                     {% for org in organizations %}
-                    <option value="{{ org.id }}">{{ org.name }}</option>
+                    <option value="{{ org.id }}">{{ org.org_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Company</label>
+                <select class="form-select" name="company_id">
+                    <option value="">Select Company</option>
+                    {% for com in company_list %}
+                    <option value="{{ com.id }}">{{ com.company_name }}</option>
                     {% endfor %}
                 </select>
             </div>
             
             <!-- Designation -->
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Designation</label>
+                <select class="form-select" name="designation">
+                    <option value="">Select Designation</option>
+                    {% for des in designations %}
+                    <option value="{{ des.id }}">{{ des.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Political Identity</label>
+                <select class="form-select" name="political_identity">
+                    <option value="">Select Political Identity</option>
+                    {% for data in political_list %}
+                    <option value="{{ data.id }}">{{ data.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
             <div class="col-md-6 mb-3">
                 <label class="form-label">Designation</label>
                 <select class="form-select" name="designation" required>
@@ -73,21 +103,24 @@
                 <label class="form-label">WhatsApp</label>
                 <input type="text" class="form-control" name="whatsapp" placeholder="Enter WhatsApp number">
             </div>
-
-            <!-- Address -->
+  
             <div class="col-md-6 mb-3">
+                <label class="form-label">Facebook Link</label>
+                <textarea class="form-control" name="facebook_link" rows="1" placeholder="Enter Facebook Link"></textarea>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Linkedin Link</label>
+                <textarea class="form-control" name="linkedin_link" rows="1" placeholder="Enter Linkedin Link"></textarea>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Twitter Link</label>
+                <textarea class="form-control" name="twitter_link" rows="1" placeholder="Enter Twitter Link"></textarea>
+            </div>
+            <div class="col-md-6 mb-3"> 
                 <label class="form-label">Address</label>
-                <textarea class="form-control" name="address" rows="1" placeholder="Enter address"></textarea>
+                <textarea class="form-control" name="address" rows="3" placeholder="Enter profile details"></textarea>
             </div>
-
-            <!-- Rank -->
             <div class="col-md-6 mb-3">
-                <label class="form-label">Rank</label>
-                <input type="number" class="form-control" name="rank" value="1">
-            </div>
-
-            <!-- Profile Details -->
-            <div class="col-md-12 mb-3">
                 <label class="form-label">Profile Details</label>
                 <textarea class="form-control" name="profile_details" rows="3" placeholder="Enter profile details"></textarea>
             </div>

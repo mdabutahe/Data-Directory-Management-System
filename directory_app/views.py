@@ -202,6 +202,7 @@ def person_list(request):
 
 def person_add(request):
     if request.method == "POST":
+        company_id = request.POST.get("company_id")
         organization_id = request.POST.get("organization")
         designation_id = request.POST.get("designation")
         person_level_id = request.POST.get("person_level")
@@ -210,31 +211,35 @@ def person_add(request):
         phone = request.POST.get("phone")
         mobile = request.POST.get("mobile")
         whatsapp = request.POST.get("whatsapp")
-        address = request.POST.get("address")
-        rank = request.POST.get("rank", 1)
+        twitter_link = request.POST.get("twitter_link")
+        linkedin_link = request.POST.get("linkedin_link")
+        facebook_link = request.POST.get("facebook_link")
+        address = request.POST.get("address") 
         profile_details = request.POST.get("profile_details")
+        political_identity_id = request.POST.get("political_identity")
 
         try:
-            organization = Organization.objects.get(id=organization_id)
-            designation = Designation.objects.get(id=designation_id)
-            person_level = PersonLevel.objects.get(id=person_level_id)
+            company = CompanyList.objects.get(id=company_id) if company_id else None
+            organization = Organization.objects.get(id=organization_id) if organization_id else None
+            designation = Designation.objects.get(id=designation_id) if designation_id else None
+            person_level = PersonLevel.objects.get(id=person_level_id) if person_level_id else None
+            political_identity = PoliticalIdentity.objects.get(id=political_identity_id) if political_identity_id else None
 
             person = PersonList.objects.create(
-                organization=organization,
+                company=company, organization=organization,
                 designation=designation,
                 person_level=person_level,
-                name=name,
-                email=email,
-                phone=phone,
-                mobile=mobile,
+                name=name, email=email, phone=phone, 
+                twitter_link = twitter_link, linkedin_link = linkedin_link,
+                 facebook_link = facebook_link,
+                mobile=mobile, political_identity = political_identity,
                 whatsapp=whatsapp,
-                address=address,
-                rank=rank,
+                address=address, 
                 profile_details=profile_details,
             )
             person.save()
             messages.success(request, "Person added successfully!")
-            return redirect("person_list")  # Redirect to the list page
+            return redirect("person_list") 
 
         except Organization.DoesNotExist:
             messages.error(request, "Invalid Organization selected.")
@@ -243,14 +248,18 @@ def person_add(request):
         except PersonLevel.DoesNotExist:
             messages.error(request, "Invalid Person Level selected.")
 
+    company_list = CompanyList.objects.all()
     organizations = Organization.objects.all()
     designations = Designation.objects.all()
     person_levels = PersonLevel.objects.all()
+    political_list = PoliticalIdentity.objects.all()
 
     return render(request, "member/person_add.html", {
+        "company_list": company_list,
         "organizations": organizations,
         "designations": designations,
         "person_levels": person_levels,
+        "political_list": political_list,
     })
 
 
