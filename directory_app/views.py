@@ -6,14 +6,40 @@ from django.http import JsonResponse
 import requests
 import json
 from datetime import datetime
- 
- 
-def userLogin(request):
-
-    return render(request, 'login.html')
+from directory_app.decorators import UserLogin
  
 
+def dashboardLogin(request):
+    if request.session.get('user_id'):
+        return redirect('/dashboard/')
+ 
+    if request.method == "POST":
+        get_data = UserList.objects.filter(email = request.POST['email'], password = request.POST['password']).first()
+        if get_data:
+            request.session['user_id'] = get_data.id 
+            request.session['user_email'] = get_data.email
+            request.session['first_name'] = get_data.first_name 
+            request.session['user_image'] = str(get_data.image) if get_data.image  else None
+            return redirect('/dashboard/')
+        else:
+            return redirect('/adminlogin/') 
 
+ 
+    return render(request, "login.html")
+
+
+def redirect_to_dashboard(request):
+    return redirect('/dashboard/')
+
+
+def dashboardLogout(request):  
+    request.session['user_id'] = False
+    request.session['user_email'] = False
+    request.session['first_name'] = False
+    return redirect('/adminlogin/')
+
+
+@UserLogin
 def dashboard_homepage(request):
     # Get total counts
     total_organizations = Organization.objects.count()
@@ -455,3 +481,135 @@ def company_add(request):
         'categories':categories,
     }
     return render(request, 'company/company_add.html', context)
+
+
+
+
+###################### List Users #####################
+@UserLogin
+def MyProfile(request):
+
+    user_id = request.session.get('user_id')  
+    user = UserList.objects.get(id=user_id)   
+ 
+    return render(request, 'users/my_profile.html', {'user': user})
+
+
+
+@UserLogin
+def EditProfile(request):
+    user_id = request.session.get('user_id')
+    user = UserList.objects.get(id=user_id)
+
+    if request.method == "POST":
+        user.first_name = request.POST.get("first_name")
+        user.last_name = request.POST.get("last_name")
+        user.email = request.POST.get("email")
+        user.phone = request.POST.get("phone")
+
+        if "image" in request.FILES:
+            user.image = request.FILES["image"]
+
+        user.save()
+        request.session['user_image'] = str(user.image)
+        messages.success(request, "Profile updated successfully.")
+        
+        return redirect("/users/myprofile/")
+
+    return render(request, "users/edit_profile.html", {"user": user})
+
+
+@UserLogin
+def ChangePassword(request):
+    user_id = request.session.get('user_id')
+    user = UserList.objects.get(id=user_id)
+
+    if request.method == "POST":
+        
+        current_password = request.POST.get("current_password")
+        new_password = request.POST.get("new_password")
+        confirm_password = request.POST.get("confirm_password")
+
+        if user.password != current_password:
+            messages.warning(request, "Current Password Not Match.")
+            return render(request, "users/change_password.html")
+
+
+        if new_password == confirm_password: 
+            user.password = new_password
+            user.save()
+            messages.success(request, "Password updated successfully.")
+            return redirect("/users/myprofile/")
+        
+        else:
+            messages.warning(request, "Password Not Match.")
+            return render(request, "users/change_password.html")
+ 
+    return render(request, "users/change_password.html")
+
+
+
+def user_list(request):
+    users = UserList.objects.all()
+    return render(request, 'users/user_list.html', {'users': users})
+
+# Create User
+def user_create(request):
+    if request.method == 'POST':
+        first_name = request.POST['first_name']
+        last_name = request.POST.get('last_name', '')
+        email = request.POST['email']
+        phone = request.POST.get('phone', '')
+        user_id = request.POST.get('user_id', '')
+        password = request.POST['password']
+        status = request.POST.get('status', 'off') == 'on'
+        
+        image = request.FILES.get('image')  # Handle image upload
+
+        UserList.objects.create(
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            phone=phone,
+            user_id=user_id,
+            password=password,
+            image=image,
+            status=status
+        )
+        messages.success(request, "User created successfully!")
+        return redirect('user_list')
+
+    return render(request, 'users/user_form.html', {'action': 'Add'})
+
+# Edit User
+def user_edit(request, user_id):
+    user = get_object_or_404(UserList, id=user_id)
+
+    if request.method == 'POST':
+        user.first_name = request.POST['first_name']
+        user.last_name = request.POST.get('last_name', '')
+        user.email = request.POST['email']
+        user.phone = request.POST.get('phone', '')
+        user.user_id = request.POST.get('user_id', '')
+        user.password = request.POST['password'] 
+        user.address = request.POST['address'] 
+        user.status = request.POST.get('status', 'off') == 'on'
+
+        if 'image' in request.FILES:
+            user.image = request.FILES['image']  # Handle image upload
+
+        user.save()
+        messages.success(request, "User updated successfully!")
+        return redirect('user_list')
+
+    return render(request, 'users/user_form.html', {'user': user, 'action': 'Edit'})
+
+# Delete User
+def user_delete(request, user_id):
+    user = get_object_or_404(UserList, id=user_id) 
+    user.delete()
+    messages.success(request, "User deleted successfully!")
+    return redirect('user_list')
+ 
+
+
