@@ -1,5 +1,25 @@
 from django.db import models
  
+class UserList(models.Model):  
+    first_name          = models.CharField(max_length=100)
+    last_name           = models.CharField(max_length=100, blank=True, null=True)
+    email               = models.EmailField(max_length=150, unique=True)
+    phone               = models.CharField(max_length=50, blank=True, null=True)
+    user_id             = models.CharField(max_length=50, blank=True, null=True)
+    password            = models.CharField(max_length=50, blank=True, null=True)  
+    address             = models.TextField(blank=True, null=True)  
+    image               = models.ImageField(upload_to='user_image/')
+    status              = models.BooleanField(default=False)
+    created             = models.DateTimeField(auto_now_add=True)
+    updated             = models.DateTimeField(auto_now=False, null=True)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
+    class Meta:
+        db_table = 'user_list'
+
+
 
 # Division Model
 class Division(models.Model):
@@ -14,23 +34,6 @@ class Division(models.Model):
         db_table = 'division'
         verbose_name = 'Division'
         verbose_name_plural = 'Divisions'
-
-    def __str__(self):
-        return self.name
-
-
-# Political Identity Model
-class PoliticalIdentity(models.Model):
-    name = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
-    rank = models.IntegerField(default=1) 
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        db_table = 'political_identity'
-        verbose_name = 'PoliticalIdentity'
-        verbose_name_plural = 'PoliticalIdentitys'
 
     def __str__(self):
         return self.name
@@ -56,6 +59,7 @@ class OrganizationCategory(models.Model):
 # Designation Model
 class Designation(models.Model):
     name = models.CharField(max_length=255)
+    short_name = models.CharField(max_length=50)
     rank = models.IntegerField(default=1)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -67,27 +71,6 @@ class Designation(models.Model):
 
     def __str__(self):
         return self.name
-
- 
-class UserList(models.Model):  
-    first_name          = models.CharField(max_length=100)
-    last_name           = models.CharField(max_length=100, blank=True, null=True)
-    email               = models.EmailField(max_length=150, unique=True)
-    phone               = models.CharField(max_length=50, blank=True, null=True)
-    user_id             = models.CharField(max_length=50, blank=True, null=True)
-    password            = models.CharField(max_length=50, blank=True, null=True)  
-    address             = models.TextField(blank=True, null=True)  
-    image               = models.ImageField(upload_to='user_image/')
-    status              = models.BooleanField(default=False)
-    created             = models.DateTimeField(auto_now_add=True)
-    updated             = models.DateTimeField(auto_now=False, null=True)
-
-    def __str__(self):
-        return f"{self.first_name} {self.last_name}"
-
-    class Meta:
-        db_table = 'user_list'
-
 
 
 # PersonLevel Model
@@ -106,22 +89,37 @@ class PersonLevel(models.Model):
         return self.name
 
 
+
+class Association(models.Model):
+    name = models.CharField(max_length=255)
+    address = models.TextField(blank=True, null=True)
+    phone = models.CharField(max_length=20, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
+    established_date = models.DateField(blank=True, null=True)
+    division = models.ForeignKey(Division, on_delete=models.SET_NULL, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        db_table = 'association_list'
+        verbose_name = 'Association'
+        verbose_name_plural = 'Associations' 
+
 # PersonList Model
 class PersonList(models.Model):
-    company = models.ForeignKey('CompanyList', on_delete=models.SET_NULL, null=True, blank=True)
     organization = models.ForeignKey('Organization', on_delete=models.SET_NULL, null=True, blank=True)
-    person_level = models.ForeignKey('PersonLevel', on_delete=models.SET_NULL, null=True, blank=True)
-    designation = models.ForeignKey('Designation', on_delete=models.SET_NULL, null=True, blank=True)
-    political_identity = models.ForeignKey(PoliticalIdentity, on_delete=models.SET_NULL, null=True, blank=True)
+    association = models.ForeignKey(Association, on_delete=models.SET_NULL, null=True, blank=True)
+    person_level = models.ForeignKey(PersonLevel, on_delete=models.SET_NULL, null=True, blank=True)
+    designation = models.ForeignKey(Designation, on_delete=models.SET_NULL, null=True, blank=True)
     name = models.CharField(max_length=255)
     email = models.EmailField()
     phone = models.CharField(max_length=20, blank=True, null=True)
     mobile = models.CharField(max_length=20, blank=True, null=True)
     whatsapp = models.CharField(max_length=20, blank=True, null=True)
     address = models.TextField(blank=True, null=True)  
-    facebook_link = models.TextField(blank=True, null=True)  
-    twitter_link = models.TextField(blank=True, null=True)  
-    linkedin_link = models.TextField(blank=True, null=True)     
     profile_details = models.TextField(blank=True, null=True)
     rank = models.IntegerField(default=1)
     created = models.DateTimeField(auto_now_add=True)
@@ -138,7 +136,7 @@ class PersonList(models.Model):
 
 # PersonFollowUp Model
 class PersonFollowUp(models.Model):
-    person = models.ForeignKey('PersonList', on_delete=models.CASCADE)
+    person = models.ForeignKey(PersonList, on_delete=models.CASCADE)
     follow_up_date = models.DateTimeField()
     status = models.CharField(max_length=255, choices=[('Pending', 'Pending'), ('Completed', 'Completed')])
     comments = models.TextField(blank=True, null=True)
@@ -211,23 +209,16 @@ class BulkEmail(models.Model):
 
 # Organization Model
 class Organization(models.Model):
-    category = models.ForeignKey('OrganizationCategory', on_delete=models.CASCADE)
-    org_name = models.CharField(max_length=255)
-    # designation = models.ForeignKey('Designation', on_delete=models.CASCADE)
     division = models.ForeignKey('Division', on_delete=models.CASCADE)
-    # contact_person_name = models.CharField(max_length=255)
-    email1 = models.EmailField(max_length=255, unique=True)
-    email2 = models.EmailField(max_length=255, unique=True)
-    email3 = models.EmailField(max_length=255, unique=True)
+    category = models.ForeignKey('OrganizationCategory', on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255, unique=True)
+    phone = models.CharField(max_length=30, blank=True, null=True)
     mobile1 = models.CharField(max_length=30, blank=True, null=True)
     mobile2 = models.CharField(max_length=30, blank=True, null=True)
-    mobile3 = models.CharField(max_length=30, blank=True, null=True)
-    residential_address = models.TextField(blank=True, null=True)
-    office_address = models.TextField(blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
     website = models.URLField(blank=True, null=True)
-    social_facebook = models.URLField(blank=True, null=True)
-    social_linkedin = models.URLField(blank=True, null=True)
-    notes = models.TextField(blank=True, null=True) 
+    map_location = models.TextField(blank=True, null=True) 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -237,47 +228,21 @@ class Organization(models.Model):
         verbose_name_plural = 'Organizations'
 
     def __str__(self):
-        return self.org_name
-
-
-
-# Company Model
-class CompanyList(models.Model): 
-    category = models.ForeignKey('OrganizationCategory', on_delete=models.CASCADE)
-    company_name = models.CharField(max_length=255)
-    email1 = models.EmailField(max_length=255, unique=True)
-    email2 = models.EmailField(max_length=255, unique=True)
-    email3 = models.EmailField(max_length=255, unique=True)
-    mobile1 = models.CharField(max_length=30, blank=True, null=True)
-    mobile2 = models.CharField(max_length=30, blank=True, null=True)
-    mobile3 = models.CharField(max_length=30, blank=True, null=True)
-    residential_address = models.TextField(blank=True, null=True)
-    office_address = models.TextField(blank=True, null=True)
-    website = models.URLField(blank=True, null=True)
-    social_facebook = models.URLField(blank=True, null=True)
-    social_linkedin = models.URLField(blank=True, null=True)
-    about_company = models.TextField(blank=True, null=True) 
-    map_location = models.TextField(blank=True, null=True) 
-    company_logo = models.ImageField(upload_to='company_logos/', blank=True, null=True) 
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        db_table = 'company_list'
-        verbose_name = 'Company'
-        verbose_name_plural = 'Companies'
-
-    def __str__(self):
         return self.name
-
 
 
 # OrganizationFollowUp Model
 class OrganizationFollowUp(models.Model):
+    text_id = models.CharField(max_length=32, unique=True)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    follow_up_date = models.DateTimeField()
-    status = models.CharField(max_length=255, choices=[('Pending', 'Pending'), ('Completed', 'Completed')])
-    comments = models.TextField(blank=True, null=True)
+    person = models.ForeignKey('PersonList', on_delete=models.CASCADE) 
+    mobile = models.CharField(max_length=30, blank=True, null=True)
+    follow_up_date = models.DateTimeField(auto_now=True)
+    next_follow_up_date = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=255, choices=[('Pending', 'Pending'), ('Processing', 'Processing'), ('Completed', 'Completed')])
+    follow_up_for = models.TextField(blank=True, null=True)
+    feedback = models.TextField(blank=True, null=True)
+    follow_up_by = models.ForeignKey(UserList, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
