@@ -8,3 +8,26 @@ requests==2.32.3
 sqlparse==0.5.3
 tzdata==2025.1
 urllib3==2.3.0
+
+notes: 14 April
+
+Organization Add page new changes
+1. Google map
+2. youtube link
+
+Company Add page
+1. Google map
+2. youtube link
+
+Person Add page
+1. Company
+2. Organization - Multiple
+3. Name
+4. Email
+5. Address
+6. Social link (whatsapp, imo, wechat)
+7. Political identity
+8. Image
+
+
+Delete option remove from all systems
