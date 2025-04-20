@@ -84,13 +84,15 @@ def dashboard_homepage(request):
         'months': months,  # Pass the month names for the chart
         'colors': colors  # Pass the division colors
     })
- 
+
+@UserLogin
 def organization_list(request):
     divisions = Division.objects.all()
     organizations = Organization.objects.all()
     return render(request, 'organization/organization_list.html', {'organizations': organizations, 'divisions': divisions})
 
 # Add Organization
+@UserLogin
 def organization_add(request):
     divisions = Division.objects.all()
     designations = Designation.objects.all().order_by('rank')
@@ -135,6 +137,7 @@ def organization_add(request):
     return render(request, 'organization/organization_add.html', context)
 
 # Edit Organization
+@UserLogin
 def organization_edit(request, id):
     organization = get_object_or_404(Organization, id=id)
     
@@ -169,6 +172,7 @@ def organization_edit(request, id):
     return render(request, 'organization/organization_edit.html', context)
 
 # Delete Organization
+@UserLogin
 def organization_delete(request, id):
     organization = get_object_or_404(Organization, id=id)
 
@@ -177,6 +181,7 @@ def organization_delete(request, id):
         return redirect('organization_list')
  
 
+@UserLogin
 def organization_detail(request, id):
     organization = get_object_or_404(Organization, id=id)
     return render(request, 'organization/organization_details.html', {'organization': organization})
@@ -184,6 +189,7 @@ def organization_detail(request, id):
 
 
 
+@UserLogin
 def person_list(request):
     persons = PersonList.objects.all().order_by('-id')
 
@@ -226,6 +232,7 @@ def person_list(request):
 
 
 
+@UserLogin
 def person_add(request):
     if request.method == "POST":
         company_id = request.POST.get("company_id")
@@ -289,6 +296,7 @@ def person_add(request):
     })
 
 
+@UserLogin
 def person_edit(request, id):
     person = get_object_or_404(PersonList, id=id)
     organizations = Organization.objects.all()
@@ -321,6 +329,7 @@ def person_edit(request, id):
     }
     return render(request, "member/person_edit.html", context)
 
+@UserLogin
 def person_delete(request, id):
     person = get_object_or_404(PersonList, id=id)
     person.delete()
@@ -341,6 +350,7 @@ def person_details(request, person_id):
 
  
 # Function to simulate SMS sending (WITHOUT API - Active)
+@UserLogin
 def send_sms_without_api(phone, message):
     print(f"SIMULATED: Sending SMS to {phone}: {message}")  # Debugging
     if phone:  # Simulated success/failure
@@ -367,6 +377,7 @@ def send_sms_without_api(phone, message):
 #         return "Failed"
 
 # Send single SMS function
+@UserLogin
 def send_single_sms(request, person_id):
     person = get_object_or_404(PersonList, id=person_id)
 
@@ -389,6 +400,7 @@ def send_single_sms(request, person_id):
     return render(request, 'sms/send_single_sms.html', {'person': person})
 
 # Send bulk SMS function
+@UserLogin
 def send_bulk_sms(request):
     if request.method == "POST":
         selected_persons = request.POST.getlist('selected_persons')
@@ -429,24 +441,31 @@ def send_bulk_sms(request):
 
 
 # Sent SMS list function
+@UserLogin
 def send_sms_list(request):
     sent_sms = SentSMSList.objects.all().order_by('-created')
     return render(request, 'sms/send_sms_list.html', {'sent_sms': sent_sms})
 
 # Create SMS template function
+@UserLogin
 def create_sms_template(request):
     return render(request, "sms/create_sms_template.html")
-# Create SMS template function
+
+# Create SMS template function 
+@UserLogin
 def send_sms(request):
     return render(request, "sms/send_single_sms.html")
 
 
 
 # Company URLs
+@UserLogin
 def company_list(request):
     companies = CompanyList.objects.all().order_by('-id')
     return render(request, 'company/company_list.html', {"companies": companies})
+
 # Company URLs
+@UserLogin
 def company_add(request): 
     categories = OrganizationCategory.objects.all()
  
@@ -549,11 +568,13 @@ def ChangePassword(request):
 
 
 
+@UserLogin
 def user_list(request):
     users = UserList.objects.all()
     return render(request, 'users/user_list.html', {'users': users})
 
 # Create User
+@UserLogin
 def user_create(request):
     if request.method == 'POST':
         first_name = request.POST['first_name']
@@ -581,7 +602,9 @@ def user_create(request):
 
     return render(request, 'users/user_form.html', {'action': 'Add'})
 
+
 # Edit User
+@UserLogin
 def user_edit(request, user_id):
     user = get_object_or_404(UserList, id=user_id)
 
@@ -604,7 +627,10 @@ def user_edit(request, user_id):
 
     return render(request, 'users/user_form.html', {'user': user, 'action': 'Edit'})
 
+
+
 # Delete User
+@UserLogin
 def user_delete(request, user_id):
     user = get_object_or_404(UserList, id=user_id) 
     user.delete()

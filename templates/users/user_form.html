@@ -1,0 +1,85 @@
+{% extends 'master.html' %}
+{% block title %} {{ action }} User {% endblock %}
+{% block content %}
+
+<div class="container mt-3">
+    <h4>{{ action }} User</h4>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            
+            <div class="col-sm-6 mb-3">
+                <label>First Name</label>
+                <input type="text" name="first_name" class="form-control" value="{{ user.first_name|default:'' }}" required>
+            </div>
+            <div class="col-sm-6 mb-3">
+                <label>Last Name</label>
+                <input type="text" name="last_name" class="form-control" value="{{ user.last_name|default:'' }}">
+            </div>
+            <div class="col-sm-6 mb-3">
+                <label>Email</label>
+                <input type="email" name="email" class="form-control" value="{{ user.email|default:'' }}" required>
+            </div>
+            <div class="col-sm-6 mb-3">
+                <label>Phone</label>
+                <input type="text" name="phone" class="form-control" value="{{ user.phone|default:'' }}">
+            </div>
+            <div class="col-sm-6 mb-3">
+                <label>Address</label>
+                <textarea name="address" class="form-control">{{ user.address|default:'' }}</textarea> 
+            </div>
+            <div class="col-sm-6 mb-3">
+                <label>User ID</label>
+                <input type="text" name="user_id" class="form-control" value="{{ user.user_id|default:'' }}">
+            </div>
+            <div class="col-sm-6 mb-3">
+                <label>Password</label>
+                <input type="password" name="password" class="form-control" value="{{ user.password|default:'' }}" required>
+            </div>
+
+            
+            <div class="col-sm-6 mb-3">
+                <label>Status</label><br>
+                <input type="checkbox" name="status" {% if user.status %}checked{% endif %}> Active
+            </div>
+            
+            <!-- Image Upload with Preview -->
+            <div class="col-sm-6 mb-3">
+                <label>Image</label>
+                <input type="file" name="image" class="form-control" id="imageInput">
+                <div class="mt-2">
+                    <img id="imagePreview" src="{% if user.image %}{{ user.image.url }}{% else %}https://via.placeholder.com/50{% endif %}" width="80" height="80" class="rounded-circle border">
+                </div>
+            </div>
+
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save"></i> {{ action }} User
+                </button>
+                <a href="{% url 'user_list' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Cancel
+                </a>
+            </div>
+        
+        </div>
+    </form>
+</div>
+
+<!-- Live Image Preview Script -->
+<script>
+document.getElementById('imageInput').addEventListener('change', function(event) {
+    var imagePreview = document.getElementById('imagePreview');
+    var file = event.target.files[0];
+
+    if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            imagePreview.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+});
+</script>
+
+{% endblock %}
